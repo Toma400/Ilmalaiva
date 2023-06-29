@@ -30,9 +30,8 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-		bg_o := &ebiten.DrawImageOptions{}
-		bg_o.GeoM.Scale(2, 2.3)
-		screen.DrawImage(IMAGES["bg"], bg_o)
+		screen.DrawImage(IMAGES["bg"], core.MODIFIER["bg"])
+		screen.DrawImage(IMAGES["pl"], core.MODIFIER["pl"])
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
