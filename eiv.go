@@ -6,10 +6,12 @@ import (
 		"log"
 
 		"github.com/hajimehoshi/ebiten/v2"
+		"github.com/hajimehoshi/ebiten/v2/inpututil"
 		"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 var IMAGES = map[string]*ebiten.Image {}
+var PLXY   = core.Coord{0, 0}             // player coordinates
 
 func init() {
 		for key, value := range core.TEXTURES {
@@ -23,15 +25,30 @@ func init() {
 		}
 }
 
-type Game struct { }
+type Game struct {
+		keys []ebiten.Key
+}
 
 func (g *Game) Update() error {
+		g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 		return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 		screen.DrawImage(IMAGES["bg"], core.MODIFIER["bg"])
-		screen.DrawImage(IMAGES["pl"], core.MODIFIER["pl"])
+		screen.DrawImage(IMAGES["pl"], core.SetOptions(true, PLXY))
+		if core.Contains(g.keys, ebiten.KeyA) {
+				PLXY.X += -1
+		}
+		if core.Contains(g.keys, ebiten.KeyD) {
+				PLXY.X +=  1
+		}
+		if core.Contains(g.keys, ebiten.KeyW) {
+				PLXY.Y += -1
+		}
+		if core.Contains(g.keys, ebiten.KeyS) {
+				PLXY.Y +=  1
+		}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {

@@ -15,12 +15,14 @@ var TEXTURES = map[string]string {
 }
 
 var MODIFIER = map[string]*ebiten.DrawImageOptions {
-  "bg": SetOptions(true),
-  "pl": SetOptions(true),
+  "bg": SetOptions(true, Coord{0,0}),
+  // "pl": SetOptions(true),
 }
 
-func SetOptions(scale bool) *ebiten.DrawImageOptions {
+func SetOptions(scale bool, movq Coord) *ebiten.DrawImageOptions {
     opt := &ebiten.DrawImageOptions{}
-    if scale == true { opt.GeoM.Scale(2, 2.3) }
+    if scale == true         { opt.GeoM.Scale(2, 2.3)              }
+    if !(movq == Coord{0,0}) { opt.GeoM.Translate(float64(movq.X),
+                                                  float64(movq.Y)) }
     return opt
 }
