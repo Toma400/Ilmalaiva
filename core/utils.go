@@ -13,11 +13,12 @@ func ParseCell(pos int, ctx int, sign string) int {
     return int(float32(pos) * float32(svc))
 }
 
-func Contains(ks []ebiten.Key, k ebiten.Key) bool {
-	for _, kc := range ks {
-		if kc == k {
-			return true
-		}
-	}
-	return false
+func CollisionBox(start, end Coord) [] Coord {
+    var ret []Coord
+    for i := start.X; i > end.X; i+=1 { // for i, v := range start.x .. end.x
+        for j := start.Y; j > end.Y; j+=1 { // for j, w := range start.y .. end.y
+            ret = append(ret, Coord{i, j})
+        }
+    }
+    return ret
 }

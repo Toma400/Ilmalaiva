@@ -37,16 +37,16 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 		screen.DrawImage(IMAGES["bg"], core.MODIFIER["bg"])
 		screen.DrawImage(IMAGES["pl"], core.SetOptions(true, PLXY))
-		if core.Contains(g.keys, ebiten.KeyA) {
+		if ebiten.IsKeyPressed(ebiten.KeyD) || ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 				PLXY.X += -1
 		}
-		if core.Contains(g.keys, ebiten.KeyD) {
+		if ebiten.IsKeyPressed(ebiten.KeyD) || ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 				PLXY.X +=  1
 		}
-		if core.Contains(g.keys, ebiten.KeyW) {
+		if ebiten.IsKeyPressed(ebiten.KeyW) || ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
 				PLXY.Y += -1
 		}
-		if core.Contains(g.keys, ebiten.KeyS) {
+		if ebiten.IsKeyPressed(ebiten.KeyS) || ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
 				PLXY.Y +=  1
 		}
 }
