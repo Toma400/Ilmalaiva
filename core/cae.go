@@ -5,8 +5,10 @@ import (
 )
 
 // CAESAR - module for all core game information required
-const RES_X = 960
-const RES_Y = 720
+const TR_X  = 60           // tile res
+const TR_Y  = 45           // tile res
+const RES_X = TR_X * TILE  // 960px
+const RES_Y = TR_Y * TILE  // 720px
 const TITLE = "Ilmalaiva"
 
 var TEXTURES = map[string]string {
@@ -26,3 +28,7 @@ func SetOptions(scale bool, movq Coord) *ebiten.DrawImageOptions {
                                                   float64(movq.Y)) }
     return opt
 }
+
+// function that takes square-ish element and makes matrix of all pixel positions
+// a way to collect all such matrixes into one bigger matrix
+// function that checks if currently player isn't touching that position?
