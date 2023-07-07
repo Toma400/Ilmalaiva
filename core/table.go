@@ -4,10 +4,15 @@ import (
     "github.com/hajimehoshi/ebiten/v2"
 		"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
+type Table struct {
+    Generator [] Coord
+    Walls     [] Coord
+}
 
 const AIR = '_'          // air tile
 const BGT = '░'          // background texture for BGR
 var   BGR = []rune{'E'}  // tiles that require backgrounds below
+var   GEN = '@'          // tile of generator
 var MAPTEXTURES = map[rune]string {
     '║': "assets/tiles/wall_vertical.png",
     '═': "assets/tiles/wall_horizontal.png",
@@ -21,7 +26,8 @@ var MAPTEXTURES = map[rune]string {
     '▒': "assets/tiles/floor_carpet.png",
     '@': "assets/tiles/test_tile.png",
 }
-var   MAP   = ReadFLines("core/table/textures.iltmp") // texture map
+var   COL   = ReadFLines("core/table/collisions.ilcmp") // collision map
+var   MAP   = ReadFLines("core/table/textures.iltmp")   // texture map
 const TILE  = 16          // tile std resolution (16px)
 var   TABLE = InitTable() // textures to use
 
@@ -42,6 +48,22 @@ func DrawTable(screen *ebiten.Image) {
         x = 0
     }
 }
+
+// func GetTable() Table {
+//     var gen [] Coord
+//     var wll [] Coord
+//
+//     x := 0    // coords analysed
+//     y := 0
+//     for _, line := range COL {
+//         for _, tile := range line {
+//             x += TILE
+//         }
+//         y += TILE
+//         x = 0
+//     }
+//     return Table{}
+// }
 
 func InitTable() map[rune]*ebiten.Image {
     var maptx = map[rune]*ebiten.Image {}

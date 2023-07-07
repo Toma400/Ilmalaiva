@@ -12,7 +12,7 @@ const RES_Y = TR_Y * TILE  // 720px
 const TITLE = "Ilmalaiva"
 
 var TEXTURES = map[string]string {
-  "bg": "assets/bg/bg_blue.png",
+  "bg": "assets/bg/bg_big.png",
   "pl": "assets/main/player.png",
 }
 

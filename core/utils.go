@@ -6,9 +6,6 @@ import (
     "bufio"
 )
 
-type TileCoord struct {    // operates on tiles (16x px)
-    X, Y int
-}
 type Coord struct {        // operates on px
     X, Y int
 }
@@ -39,10 +36,27 @@ func ReadFLines(path string) [] string {
 
 func CollisionBox(start, end Coord) [] Coord {
     var ret []Coord
-    for i := start.X; i < end.X; i+=1 { // for i, v := range start.x .. end.x
+    for i := start.X; i < end.X; i+=1 {     // for i, v := range start.x .. end.x
         for j := start.Y; j < end.Y; j+=1 { // for j, w := range start.y .. end.y
             ret = append(ret, Coord{i, j})
         }
     }
     return ret
+}
+
+func MergeCollisionBoxes(box ...[] Coord) [] Coord {
+    var ret []Coord
+    for ij := range box {
+        ret = append(ret, box[ij]...)
+    }
+    return ret
+}
+
+func Collide(rect [] Coord, crd Coord) bool {
+    for _, v := range rect {
+        if v == crd {
+            return true
+        }
+    }
+    return false
 }

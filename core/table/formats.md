@@ -3,6 +3,7 @@ Keys:
 - X  - not passable (air)
 - \# - collision (wall)
 - 0  - passable (floor)
+  - @ - generator
 
 # ILTMP (Ilmalaiva Texture Map)
 Keys:
