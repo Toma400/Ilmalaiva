@@ -1,4 +1,7 @@
 package main
+// COPYRIGHT NOTICE -------------------------------
+// Tomasz Stępień 2023 (C), All Rights Reserved
+// ------------------------------------------------
 
 import (
 		"ilmalaiva/core"
