@@ -14,16 +14,23 @@ const TITLE = "Ilmalaiva"
 var TEXTURES = map[string]string {
   "bg": "assets/bg/bg_big.png",
   "pl": "assets/main/player.png",
+  "fb": "assets/main/fuel_bar.png",
+  "ff": "assets/main/fuel_full.png",
+  "f9": "assets/main/fuel_9.png",
+  "f8": "assets/main/fuel_8.png",
+  "f7": "assets/main/fuel_7.png",
+  "f6": "assets/main/fuel_6.png",
+  "f5": "assets/main/fuel_5.png",
+  "f4": "assets/main/fuel_4.png",
+  "f3": "assets/main/fuel_3.png",
+  "f2": "assets/main/fuel_2.png",
+  "f1": "assets/main/fuel_1.png",
+  "f0": "assets/main/fuel_0.png",
 }
 
-var MODIFIER = map[string]*ebiten.DrawImageOptions {
-  "bg": SetOptions(true, Coord{0,0}),
-  // "pl": SetOptions(true),
-}
-
-func SetOptions(scale bool, movq Coord) *ebiten.DrawImageOptions {
+func SetOptions(scale int, movq Coord) *ebiten.DrawImageOptions {
     opt := &ebiten.DrawImageOptions{}
-    if scale == true         { opt.GeoM.Scale(2, 2.3)              }
+    if scale != 0            { opt.GeoM.Scale(float64(scale), float64(scale)) }
     if !(movq == Coord{0,0}) { opt.GeoM.Translate(float64(movq.X),
                                                   float64(movq.Y)) }
     return opt

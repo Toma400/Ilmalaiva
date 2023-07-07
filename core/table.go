@@ -38,9 +38,9 @@ func DrawTable(screen *ebiten.Image) {
         for _, tile := range line {
             if tile != AIR {
                 if contains(BGR, tile) {
-                    screen.DrawImage(TABLE[BGT], SetOptions(false, Coord{x, y}))
+                    screen.DrawImage(TABLE[BGT], SetOptions(0, Coord{x, y}))
                 }
-                screen.DrawImage(TABLE[tile], SetOptions(false, Coord{x, y}))
+                screen.DrawImage(TABLE[tile], SetOptions(0, Coord{x, y}))
             }
             x += TILE
         }
