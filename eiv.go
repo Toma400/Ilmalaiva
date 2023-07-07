@@ -145,10 +145,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 						var BDQ = 1 // boost downgrade qualifier
 						switch {
 							case CNS < 2:  BDQ  = 0 // ..1 CNS do not do anything
-							case CNS == 2: SPD  = 2;   BTIME = 400; BDQ = CNS
-							case CNS == 3: SPD  = 2;   BTIME = 600; BDQ = CNS
-							case CNS == 4: GSPD = 0.5; BTIME = 300; BDQ = CNS
-							case CNS > 4:  GSPD = 0.5; BTIME = 400; BDQ = CNS - 4
+							case CNS == 2: SPD  = 2;   BTIME += 450; BDQ = CNS
+							case CNS == 3: SPD  = 2;   BTIME += 750; BDQ = CNS     // 1.5 + bonus
+							case CNS == 4: GSPD = 0.5; BTIME += 500; BDQ = CNS
+							case CNS > 4:  GSPD = 0.5; BTIME += 600; BDQ = CNS - 4 // CNS4 + small bonus
 							// yes, CNS 6 let you make double boost - slow down game + boost yourself
 						}
 						CNS += -BDQ
