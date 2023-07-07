@@ -39,6 +39,16 @@ func SetOptions(scale int, movq Coord) *ebiten.DrawImageOptions {
 }
 
 func Generator(e int, cap int) int {
+    if e < cap/2 {
+        e += 2
+    } else if e < cap {
+        e += 1
+    }
+    return e
+}
+
+// deprecated as it is not really passable to work with
+func HardcoreGenerator(e int, cap int) int {
     if e < cap/3 {              // < 0.3 energy cap
         e += 2
     } else if e < cap/2 {       // < 0.5 energy cap

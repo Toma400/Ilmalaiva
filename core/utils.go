@@ -2,13 +2,24 @@ package core
 
 import (
     "os"
-    "log"
     "bufio"
+    // "gopkg.in/yaml.v3"
 )
 
 type Coord struct {        // operates on px
     X, Y int
 }
+type Config struct {       // config file
+    KML rune
+    KMR rune
+    KMU rune
+    KMD rune
+    KB  rune
+    KA  rune
+    MM  rune
+    GS  rune
+}
+// var CFG = ReadConfig()
 
 func ParseCell(pos int, ctx int, sign string) int {
     var svc = ctx / 100
@@ -18,7 +29,7 @@ func ParseCell(pos int, ctx int, sign string) int {
 func ReadFLines(path string) [] string {
     f, err := os.Open(path)
     if err != nil {
-        log.Fatal(err)
+        // put error here one day
     }
     defer f.Close()
     var ret []string
@@ -60,3 +71,18 @@ func Collide(rect [] Coord, crd Coord) bool {
     }
     return false
 }
+
+// func ReadConfig() Config {
+//     f, err := os.Open(path)
+//     if err != nil {
+//         // put error here one day
+//     }
+//     defer f.Close()
+//     var ret Config
+//
+//     err := toml.Unmarshal([]byte(string(f)), &ret)
+//     if err != nil {
+//         panic(err)
+//     }
+//     return ret
+// }
