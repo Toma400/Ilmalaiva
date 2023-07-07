@@ -5,14 +5,17 @@ import (
 		"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 type Table struct {
-    Generator [] Coord
-    Walls     [] Coord
+    Stove      [] Coord
+    Generators [] Coord
+    Walls      [] Coord
 }
 
 const AIR = '_'          // air tile
 const BGT = '░'          // background texture for BGR
-var   BGR = []rune{'E'}  // tiles that require backgrounds below
-var   GEN = '@'          // tile of generator
+var   BGR = []rune{'E',  // tiles that require backgrounds below
+                   '@',
+                   '#',}
+var   STV = '@'          // tile of stove
 var MAPTEXTURES = map[rune]string {
     '║': "assets/tiles/wall_vertical.png",
     '═': "assets/tiles/wall_horizontal.png",
@@ -24,7 +27,8 @@ var MAPTEXTURES = map[rune]string {
     'E': "assets/tiles/wall_door.png",
     '░': "assets/tiles/floor_wood.png",
     '▒': "assets/tiles/floor_carpet.png",
-    '@': "assets/tiles/test_tile.png",
+    '@': "assets/tiles/special_stove.png",
+    '#': "assets/tiles/special_generator.png",
 }
 var   COL   = ReadFLines("core/table/collisions.ilcmp") // collision map
 var   MAP   = ReadFLines("core/table/textures.iltmp")   // texture map

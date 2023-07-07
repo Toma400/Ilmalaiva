@@ -1,6 +1,8 @@
 package core
 
 import (
+    "math/rand"
+
     "github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -34,6 +36,21 @@ func SetOptions(scale int, movq Coord) *ebiten.DrawImageOptions {
     if !(movq == Coord{0,0}) { opt.GeoM.Translate(float64(movq.X),
                                                   float64(movq.Y)) }
     return opt
+}
+
+func Generator(e int, cap int) int {
+    if e < cap/3 {              // < 0.3 energy cap
+        e += 2
+    } else if e < cap/2 {       // < 0.5 energy cap
+        e += 1
+    } else if e < cap + cap/4 { // 0.5 .. 1.25 energy cap
+        if rand.Intn(100) >= 50 {
+            e += 1
+        }
+    } else { // overpowering
+        e = int(e/2)
+    }
+    return e
 }
 
 // function that takes square-ish element and makes matrix of all pixel positions

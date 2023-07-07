@@ -17,4 +17,5 @@ Keys:
 - ¤ - wall with window
 - E - wall with door
 - ░ - floor
-- @ - generator
+- # - generator
+- @ - stove
