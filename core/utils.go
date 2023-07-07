@@ -18,22 +18,23 @@ func ParseCell(pos int, ctx int, sign string) int {
     return int(float32(pos) * float32(svc))
 }
 
-func ReadFLines(path string) {
+func ReadFLines(path string) [] string {
     f, err := os.Open(path)
     if err != nil {
         log.Fatal(err)
     }
     defer f.Close()
-    // var ret []string
+    var ret []string
 
     scanner := bufio.NewScanner(f)
 
     for scanner.Scan() {
-
+        ret = append(ret, scanner.Text())
     }
     if err := scanner.Err(); err != nil {
-        
+        // put error here one day
     }
+    return ret
 }
 
 func CollisionBox(start, end Coord) [] Coord {

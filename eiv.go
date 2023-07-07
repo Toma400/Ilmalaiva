@@ -11,7 +11,7 @@ import (
 )
 
 var IMAGES = map[string]*ebiten.Image {}
-var PLXY   = core.Coord{0, 0}             // player coordinates
+var PLXY   = core.Coord{260, 80}             // player coordinates
 
 func init() {
 		for key, value := range core.TEXTURES {
@@ -35,8 +35,15 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+		// drawing
 		screen.DrawImage(IMAGES["bg"], core.MODIFIER["bg"])
-		screen.DrawImage(IMAGES["pl"], core.SetOptions(true, PLXY))
+		core.DrawTable(screen)
+		screen.DrawImage(IMAGES["pl"], core.SetOptions(false, PLXY))
+		// set "second batch" which will be walls and all things that are should be
+		// above player (door wall for example), simply whatever should cover player
+		// (usually is collision-related, not floor-like)
+
+		// controls
 		if ebiten.IsKeyPressed(ebiten.KeyA) || ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
 				PLXY.X += -1
 		}
