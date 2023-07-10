@@ -22,6 +22,7 @@ import (
 // - player pos on tilemap
 // - config file with keyboard...
 // - ...and pickable levels??? :O
+// - animated player sprite (?)
 
 var IMAGES = map[string]*ebiten.Image {}
 // STOVE //
@@ -40,22 +41,9 @@ var GEN3XY = core.CollisionBox(core.Coord{29.5*core.TILE,  10.5*core.TILE},
  											 				 core.Coord{30.5*core.TILE,  11.5*core.TILE})
 var GEN3E  = 150 // energy stored
 var GEN3EC = 150 // energy cap
-// WALLS //
-var WLEFT  = core.CollisionBox(core.Coord{14.5*core.TILE,   0.5*core.TILE},
-															core.Coord{15.5*core.TILE,   12.5*core.TILE})
-var WRIGHT = core.CollisionBox(core.Coord{30.5*core.TILE,   0.5*core.TILE},
-															core.Coord{31.5*core.TILE,   12.5*core.TILE})
-var WUP    = core.CollisionBox(core.Coord{14.5*core.TILE,   0.5*core.TILE},
-															core.Coord{31.5*core.TILE,    1.5*core.TILE})
-var WDOWN  = core.CollisionBox(core.Coord{14.5*core.TILE,  11.0*core.TILE},
-															core.Coord{31.5*core.TILE,   12.5*core.TILE})
-var WMIDL  = core.CollisionBox(core.Coord{14.5*core.TILE,   8.0*core.TILE},
-															core.Coord{22.75*core.TILE,   9.5*core.TILE})
-var WMIDR  = core.CollisionBox(core.Coord{23.25*core.TILE,  8.0*core.TILE},
-															core.Coord{31.5*core.TILE,    9.5*core.TILE})
-var WALLXY = core.MergeCollisionBoxes(WLEFT, WRIGHT, WUP, WDOWN, WMIDL, WMIDR)
 // OTHER DATA //
-var PLXY   = core.Coord{260, 80}            // player coordinates
+var WALLS  = core.TABLE.Walls               // walls
+var PLXY   = core.TABLE.PlayerPos           // player coordinates
 var SKXY   = core.Coord{0, 0}               // sky coordinates
 var FBXY   = core.Coord{900, 450}           // fuel bar coordinates
 var FLXY   = core.Coord{904, 478}           // fuel level coordinates
@@ -117,25 +105,25 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			// controls
 			if ebiten.IsKeyPressed(ebiten.KeyA) || ebiten.IsKeyPressed(ebiten.KeyArrowLeft) {
 					PLXY.X += -SPD
-					if core.Collide(WALLXY, PLXY) {
+					if core.Collide(WALLS, PLXY) {
 							PLXY.X += SPD
 					}
 			}
 			if ebiten.IsKeyPressed(ebiten.KeyD) || ebiten.IsKeyPressed(ebiten.KeyArrowRight) {
 					PLXY.X += SPD
-					if core.Collide(WALLXY, PLXY) {
+					if core.Collide(WALLS, PLXY) {
 							PLXY.X += -SPD
 					}
 			}
 			if ebiten.IsKeyPressed(ebiten.KeyW) || ebiten.IsKeyPressed(ebiten.KeyArrowUp) {
 					PLXY.Y += -SPD
-					if core.Collide(WALLXY, PLXY) {
+					if core.Collide(WALLS, PLXY) {
 							PLXY.Y += SPD
 					}
 			}
 			if ebiten.IsKeyPressed(ebiten.KeyS) || ebiten.IsKeyPressed(ebiten.KeyArrowDown) {
 					PLXY.Y += SPD
-					if core.Collide(WALLXY, PLXY) {
+					if core.Collide(WALLS, PLXY) {
 							PLXY.Y += -SPD
 					}
 			}
