@@ -66,6 +66,14 @@ func MergeCollisionBoxes(box ...[] Coord) [] Coord {
     return ret
 }
 
+func MergeGenerators(gen ...[] Generator) [] Generator {
+    var ret []Generator
+    for ij := range gen {
+        ret = append(ret, gen[ij]...)
+    }
+    return ret
+}
+
 func Collide(rect [] Coord, crd Coord) bool {
     for _, v := range rect {
         if v == crd {

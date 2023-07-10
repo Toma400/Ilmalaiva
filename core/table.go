@@ -4,16 +4,24 @@ import (
     "github.com/hajimehoshi/ebiten/v2"
 		"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
+type Generator struct {
+    Pos   [] Coord
+    Fuel  int
+    Cap   int
+}
 type Table struct {
-//    Stove      [] Coord
-//    Generators [] Coord
-    Walls      [] Coord
-    PlayerPos  Coord
+    PlayerPos   Coord
+    Walls       [] Coord
+    Stoves      [] Coord
+    Generators  [] Coord
+    GeneratorsD [] Generator
 }
 
 const AIR = '_'          // air tile
 const BGT = '░'          // background texture for BGR
 const PST = 'P'          // player starting position
+const GEN = '#'          // generator tile
+const STV = '@'          // stove tile
 var   BGR = []rune{'E',  // tiles that require backgrounds below
                    '@',
                    '#',
@@ -66,7 +74,9 @@ func DrawTable(screen *ebiten.Image) {
 }
 
 func GetTable() Table {
-    //var gen [] Coord
+    var gnn [] Generator
+    var stv [] Coord
+    var gen [] Coord
     var wll [] Coord
     var pps Coord
 
@@ -80,14 +90,28 @@ func GetTable() Table {
                 wll = MergeCollisionBoxes(wll, tpc)
             } else if tile == PST {
                 pps = Coord{x, y}
+            } else if tile == STV {
+                var tpc = CollisionBox(Coord{x-TILE/2, y-TILE},
+                                       Coord{x+TILE/2, y+TILE/3})
+                stv = MergeCollisionBoxes(stv, tpc)
+            } else if tile == GEN {
+                var tpc = CollisionBox(Coord{x-TILE/2, y-TILE},
+                                       Coord{x+TILE/2, y+TILE/3})
+                rtp := []Generator{ Generator { Pos: tpc,
+                                                Fuel: 150,
+                                                Cap:  150, }}
+                gnn = MergeGenerators(gnn, rtp)
             }
             x += TILE
         }
         y += TILE
         x = 0
     }
+    for _, g := range gnn {
+        gen = MergeCollisionBoxes(gen, g.Pos)
+    }
 
-    return Table{ Walls: wll, PlayerPos: pps }
+    return Table{ PlayerPos: pps, Walls: wll, Stoves: stv, Generators: gen, GeneratorsD: gnn }
 }
 
 func InitTable() map[rune]*ebiten.Image {

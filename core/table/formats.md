@@ -1,10 +1,3 @@
-# ILCMP (Ilmalaiva Collision Map)
-Keys:
-- X  - not passable (air)
-- \# - collision (wall)
-- 0  - passable (floor)
-  - @ - generator
-
 # ILTMP (Ilmalaiva Texture Map)
 Keys:
 - _ - air
@@ -17,5 +10,6 @@ Keys:
 - ¤ - wall with window
 - E - wall with door
 - ░ - floor
-- # - generator
-- @ - stove
+- P - player starting position (required)
+- # - generator (required to win)
+- @ - stove (required to win)

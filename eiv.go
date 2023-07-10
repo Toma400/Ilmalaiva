@@ -25,24 +25,23 @@ import (
 // - animated player sprite (?)
 
 var IMAGES = map[string]*ebiten.Image {}
-// STOVE //
-var STVXY  = core.CollisionBox(core.Coord{29.5*core.TILE,   5.5*core.TILE},
-											 				 core.Coord{30.5*core.TILE,   6.5*core.TILE})
-// GENERATORS //
-var GEN1XY = core.CollisionBox(core.Coord{15.5*core.TILE,   7.5*core.TILE},
-											 				 core.Coord{16.5*core.TILE,   8.5*core.TILE})
-var GEN1E  = 150 // energy stored
-var GEN1EC = 150 // energy cap
-var GEN2XY = core.CollisionBox(core.Coord{15.5*core.TILE,   9.5*core.TILE},
-											 				 core.Coord{16.5*core.TILE,  10.5*core.TILE})
-var GEN2E  = 150 // energy stored
-var GEN2EC = 150 // energy cap
-var GEN3XY = core.CollisionBox(core.Coord{29.5*core.TILE,  10.5*core.TILE},
- 											 				 core.Coord{30.5*core.TILE,  11.5*core.TILE})
-var GEN3E  = 150 // energy stored
-var GEN3EC = 150 // energy cap
+// var GEN1XY = core.CollisionBox(core.Coord{15.5*core.TILE,   7.5*core.TILE},
+// 											 				 core.Coord{16.5*core.TILE,   8.5*core.TILE})
+// var GEN1E  = 150 // energy stored
+// var GEN1EC = 150 // energy cap
+// var GEN2XY = core.CollisionBox(core.Coord{15.5*core.TILE,   9.5*core.TILE},
+// 											 				 core.Coord{16.5*core.TILE,  10.5*core.TILE})
+// var GEN2E  = 150 // energy stored
+// var GEN2EC = 150 // energy cap
+// var GEN3XY = core.CollisionBox(core.Coord{29.5*core.TILE,  10.5*core.TILE},
+//  											 				 core.Coord{30.5*core.TILE,  11.5*core.TILE})
+// var GEN3E  = 150 // energy stored
+// var GEN3EC = 150 // energy cap
 // OTHER DATA //
 var WALLS  = core.TABLE.Walls               // walls
+var STVS   = core.TABLE.Stoves              // stoves
+var GENS   = core.TABLE.Generators          // generators (collisions)
+var GENSD  = core.TABLE.GeneratorsD         // generators (data)
 var PLXY   = core.TABLE.PlayerPos           // player coordinates
 var SKXY   = core.Coord{0, 0}               // sky coordinates
 var FBXY   = core.Coord{900, 450}           // fuel bar coordinates
@@ -151,7 +150,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					// look: https://github.com/hajimehoshi/ebiten/blob/0db860b5dd64948a0907f012ef8418519084e051/internal/clock/clock.go#L55
 			}
 			// STOVE //
-			if core.Collide(STVXY, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) && TIME < 1000 {
+			if core.Collide(STVS, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) && TIME < 1000 {
 					if FUEL > 0 {
 						CNS  += 1
 					}
@@ -160,24 +159,26 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					FUEL -= FUEL
 			}
 			// GENERATORS //
-			if core.Collide(GEN1XY, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) {
-					FUEL += GEN1E
-					GEN1E = 0
-			}
-			if core.Collide(GEN2XY, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) {
-					FUEL += GEN2E
-					GEN2E = 0
-			}
-			if core.Collide(GEN3XY, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) {
-					FUEL += GEN3E
-					GEN3E = 0
+			if core.Collide(GENS, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) {
+					for _, g := range GENSD {
+							if core.Collide(g.Pos, PLXY) {
+									FUEL += g.Fuel
+									g.Fuel = 0
+							}
+					}
 			}
 
 			// GENERAL EVENTS //
 			TIME += -GSPD
-			GEN1E = core.Generator(GEN1E, GEN1EC)
-			GEN2E = core.Generator(GEN2E, GEN2EC)
-			GEN3E = core.Generator(GEN3E, GEN3EC)
+			for _, g := range GENSD {
+					g.Fuel = core.RunGenerator(g.Fuel, g.Cap)
+					if g.Fuel < 150 {
+						fmt.Print(g.Fuel, "\n")
+					}
+			}
+			// GEN1E = core.RunGenerator(GEN1E, GEN1EC)
+			// GEN2E = core.Generator(GEN2E, GEN2EC)
+			// GEN3E = core.Generator(GEN3E, GEN3EC)
 			ebitenutil.DebugPrint(screen, fmt.Sprintf("Fuel: %s | Boost: %s", strconv.Itoa(FUEL), strconv.Itoa(CNS)))
 			// BOOST MANAGEMENTS //
 			if BTIME > 1 {
@@ -193,9 +194,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	} else {
 			ebitenutil.DebugPrint(screen, fmt.Sprintf("You couldn't keep with airship fuel! Your score: %s", strconv.Itoa(PTS)))
 			if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-					GEN1E = 150
-					GEN2E = 150
-					GEN3E = 150
+					for _, g := range GENSD {
+							g.Fuel = 150
+					}
+					// GEN1E = 150
+					// GEN2E = 150
+					// GEN3E = 150
 					FUEL = 0
 					PTS  = 0
 					CNS  = 0

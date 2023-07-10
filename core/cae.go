@@ -38,7 +38,7 @@ func SetOptions(scale int, movq Coord) *ebiten.DrawImageOptions {
     return opt
 }
 
-func Generator(e int, cap int) int {
+func RunGenerator(e int, cap int) int {
     if e < cap/2 {
         e += 2
     } else if e < cap {
