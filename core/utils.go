@@ -2,6 +2,7 @@ package core
 
 import (
     "os"
+    "fmt"
     "bufio"
     "gopkg.in/yaml.v3"
 )
@@ -11,15 +12,16 @@ type Coord struct {        // operates on px
 }
 type Config struct {       // config file
     KEYS struct {
-        MoveLeft  string `yaml:"move_left"`
-        MoveRight string `yaml:"move_right"`
-        MoveUp    string `yaml:"move_up"`
-        MoveDown  string `yaml:"move_down"`
-        Boost     string
-        Activate  string
+        MoveLeft  rune `yaml:"move_left"`
+        MoveRight rune `yaml:"move_right"`
+        MoveUp    rune `yaml:"move_up"`
+        MoveDown  rune `yaml:"move_down"`
+        Boost     rune
+        Activate  rune
     }
     MAPS struct {
-        Map string
+        Background rune
+        Map        rune
     }
 }
 var CFG = ReadConfig()
@@ -84,15 +86,16 @@ func Collide(rect [] Coord, crd Coord) bool {
 }
 
 func ReadConfig() Config {
-    f, err := os.ReadFile("/ilmalaiva.yaml")
+    f, err := os.ReadFile("ilmalaiva.yaml")
     if err != nil {
         // put error here one day
     }
     var ret Config
 
-    err = yaml.Unmarshal([]byte(f), &ret)
+    err = yaml.Unmarshal(f, &ret)
     if err != nil {
         // put error here one day
     }
+    fmt.Printf("%+v\n", ret)
     return ret
 }

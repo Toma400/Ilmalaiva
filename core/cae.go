@@ -62,7 +62,3 @@ func HardcoreGenerator(e int, cap int) int {
     }
     return e
 }
-
-// function that takes square-ish element and makes matrix of all pixel positions
-// a way to collect all such matrixes into one bigger matrix
-// function that checks if currently player isn't touching that position?

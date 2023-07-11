@@ -25,24 +25,12 @@ import (
 // - animated player sprite (?)
 
 var IMAGES = map[string]*ebiten.Image {}
-// var GEN1XY = core.CollisionBox(core.Coord{15.5*core.TILE,   7.5*core.TILE},
-// 											 				 core.Coord{16.5*core.TILE,   8.5*core.TILE})
-// var GEN1E  = 150 // energy stored
-// var GEN1EC = 150 // energy cap
-// var GEN2XY = core.CollisionBox(core.Coord{15.5*core.TILE,   9.5*core.TILE},
-// 											 				 core.Coord{16.5*core.TILE,  10.5*core.TILE})
-// var GEN2E  = 150 // energy stored
-// var GEN2EC = 150 // energy cap
-// var GEN3XY = core.CollisionBox(core.Coord{29.5*core.TILE,  10.5*core.TILE},
-//  											 				 core.Coord{30.5*core.TILE,  11.5*core.TILE})
-// var GEN3E  = 150 // energy stored
-// var GEN3EC = 150 // energy cap
-// OTHER DATA //
 var WALLS  = core.TABLE.Walls               // walls
 var STVS   = core.TABLE.Stoves              // stoves
+var PLXY   = core.TABLE.PlayerPos           // player coordinates
 var GENS   = core.TABLE.Generators          // generators (collisions)
 var GENSD  = core.TABLE.GeneratorsD         // generators (data)
-var PLXY   = core.TABLE.PlayerPos           // player coordinates
+var GENSF  = core.InitGeneratorFuel(GENSD)  // generators (fuel)
 var SKXY   = core.Coord{0, 0}               // sky coordinates
 var FBXY   = core.Coord{900, 450}           // fuel bar coordinates
 var FLXY   = core.Coord{904, 478}           // fuel level coordinates
@@ -162,8 +150,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			if core.Collide(GENS, PLXY) && ebiten.IsKeyPressed(ebiten.KeySpace) {
 					for _, g := range GENSD {
 							if core.Collide(g.Pos, PLXY) {
-									FUEL += g.Fuel
-									g.Fuel = 0
+									FUEL += GENSF[g.Id]
+									GENSF[g.Id] = 0
 							}
 					}
 			}
@@ -171,14 +159,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			// GENERAL EVENTS //
 			TIME += -GSPD
 			for _, g := range GENSD {
-					g.Fuel = core.RunGenerator(g.Fuel, g.Cap)
-					if g.Fuel < 150 {
-						fmt.Print(g.Fuel, "\n")
-					}
+					GENSF[g.Id] = core.RunGenerator(GENSF[g.Id], g.Cap)
 			}
-			// GEN1E = core.RunGenerator(GEN1E, GEN1EC)
-			// GEN2E = core.Generator(GEN2E, GEN2EC)
-			// GEN3E = core.Generator(GEN3E, GEN3EC)
 			ebitenutil.DebugPrint(screen, fmt.Sprintf("Fuel: %s | Boost: %s", strconv.Itoa(FUEL), strconv.Itoa(CNS)))
 			// BOOST MANAGEMENTS //
 			if BTIME > 1 {
@@ -195,11 +177,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			ebitenutil.DebugPrint(screen, fmt.Sprintf("You couldn't keep with airship fuel! Your score: %s", strconv.Itoa(PTS)))
 			if ebiten.IsKeyPressed(ebiten.KeySpace) || ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 					for _, g := range GENSD {
-							g.Fuel = 150
+							GENSF[g.Id] = 150
 					}
-					// GEN1E = 150
-					// GEN2E = 150
-					// GEN3E = 150
 					FUEL = 0
 					PTS  = 0
 					CNS  = 0

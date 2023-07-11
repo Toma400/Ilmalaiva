@@ -6,7 +6,7 @@ import (
 )
 type Generator struct {
     Pos   [] Coord
-    Fuel  int
+    Id    int
     Cap   int
 }
 type Table struct {
@@ -25,7 +25,7 @@ const STV = '@'          // stove tile
 var   BGR = []rune{'E',  // tiles that require backgrounds below
                    '@',
                    '#',
-                   'P'}
+                   'P',}
 var   CLT = []rune{'║',  // tiles that have collisions
                    '═',
                    '╚',
@@ -82,6 +82,7 @@ func GetTable() Table {
 
     x := 0    // coords analysed
     y := 0
+    v := 0    // id of generator
     for _, line := range MAP {
         for _, tile := range line {
             if contains(CLT, tile) {
@@ -95,11 +96,12 @@ func GetTable() Table {
                                        Coord{x+TILE/2, y+TILE/3})
                 stv = MergeCollisionBoxes(stv, tpc)
             } else if tile == GEN {
+                v += 1
                 var tpc = CollisionBox(Coord{x-TILE/2, y-TILE},
                                        Coord{x+TILE/2, y+TILE/3})
-                rtp := []Generator{ Generator { Pos: tpc,
-                                                Fuel: 150,
-                                                Cap:  150, }}
+                var rtp = []Generator{ Generator { Pos: tpc,
+                                                   Id:  v,
+                                                   Cap: 150, }}
                 gnn = MergeGenerators(gnn, rtp)
             }
             x += TILE
@@ -112,6 +114,14 @@ func GetTable() Table {
     }
 
     return Table{ PlayerPos: pps, Walls: wll, Stoves: stv, Generators: gen, GeneratorsD: gnn }
+}
+
+func InitGeneratorFuel(gens []Generator) map[int]int {
+    var ret = make(map[int]int)
+    for _, g := range gens {
+        ret[g.Id] = 150
+    }
+    return ret
 }
 
 func InitTable() map[rune]*ebiten.Image {
