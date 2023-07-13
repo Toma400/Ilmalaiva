@@ -10,14 +10,14 @@ type Coord struct {        // operates on px
     X, Y int
 }
 type Config struct {       // config file
-    KEYS struct {
-        MoveLeft  string `yaml:"move_left"`
-        MoveRight string `yaml:"move_right"`
-        MoveUp    string `yaml:"move_up"`
-        MoveDown  string `yaml:"move_down"`
-        Boost     string
-        Activate  string
-    } `yaml:"KEYS"`
+    // KEYS struct {
+    //     MoveLeft  string `yaml:"move_left"`
+    //     MoveRight string `yaml:"move_right"`
+    //     MoveUp    string `yaml:"move_up"`
+    //     MoveDown  string `yaml:"move_down"`
+    //     Boost     string
+    //     Activate  string
+    // } `yaml:"KEYS"`
     MAPS struct {
         Background string
         Map        string

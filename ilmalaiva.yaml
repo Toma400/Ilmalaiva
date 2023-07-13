@@ -1,10 +1,3 @@
-KEYS:
-  move_left:  A
-  move_right: D
-  move_up:    W
-  move_down:  S
-  boost:      Q
-  activate:   X
 MAPS:
   background: default
-  map:        open_airship
+  map:        small_airship
