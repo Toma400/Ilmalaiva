@@ -7,4 +7,4 @@ KEYS:
   activate:   X
 MAPS:
   background: default
-  map:        small_airship
+  map:        open_airship

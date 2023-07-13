@@ -14,7 +14,7 @@ const RES_Y = TR_Y * TILE  // 720px
 const TITLE = "Ilmalaiva"
 
 var TEXTURES = map[string]string {
-  "bg": "assets/bg/bg_big.png",
+  "bg": Sky(),
   "pl": "assets/main/player.png",
   "fb": "assets/main/fuel_bar.png",
   "ff": "assets/main/fuel_full.png",
@@ -28,6 +28,10 @@ var TEXTURES = map[string]string {
   "f2": "assets/main/fuel_2.png",
   "f1": "assets/main/fuel_1.png",
   "f0": "assets/main/fuel_0.png",
+}
+
+func Sky() string {
+    return "skies/" + CFG.MAPS.Background + ".png"
 }
 
 func SetOptions(scale int, movq Coord) *ebiten.DrawImageOptions {

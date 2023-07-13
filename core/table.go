@@ -31,7 +31,8 @@ var   CLT = []rune{'║',  // tiles that have collisions
                    '╚',
                    '╝',
                    '╔',
-                   '╗',}
+                   '╗',
+                   '_'}
 //var   STV = '@'          // tile of stove
 var MAPTEXTURES = map[rune]string {
     '║': "assets/tiles/wall_vertical.png",
@@ -47,8 +48,8 @@ var MAPTEXTURES = map[rune]string {
     '@': "assets/tiles/special_stove.png",
     '#': "assets/tiles/special_generator.png",
 }
-//var   COL   = ReadFLines("core/table/collisions.ilcmp") // collision map
-var   MAP   = ReadFLines("core/table/textures.iltmp")   // texture map
+//var   COL   = ReadFLines("core/table/collisions.ilcmp")  // collision map
+var   MAP   = ReadFLines("maps/" + CFG.MAPS.Map + ".ilmp") // texture map
 const TILE  = 16          // tile std resolution (16px)
 var   TABLE = GetTable()  // table
 var   TILES = InitTable() // textures to use
@@ -113,7 +114,11 @@ func GetTable() Table {
         gen = MergeCollisionBoxes(gen, g.Pos)
     }
 
-    return Table{ PlayerPos: pps, Walls: wll, Stoves: stv, Generators: gen, GeneratorsD: gnn }
+    return Table{ PlayerPos: pps,
+                  Walls: wll,
+                  Stoves: stv,
+                  Generators: gen,
+                  GeneratorsD: gnn }
 }
 
 func InitGeneratorFuel(gens []Generator) map[int]int {

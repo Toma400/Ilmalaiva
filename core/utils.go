@@ -2,7 +2,6 @@ package core
 
 import (
     "os"
-    "fmt"
     "bufio"
     "gopkg.in/yaml.v3"
 )
@@ -12,17 +11,17 @@ type Coord struct {        // operates on px
 }
 type Config struct {       // config file
     KEYS struct {
-        MoveLeft  rune `yaml:"move_left"`
-        MoveRight rune `yaml:"move_right"`
-        MoveUp    rune `yaml:"move_up"`
-        MoveDown  rune `yaml:"move_down"`
-        Boost     rune
-        Activate  rune
-    }
+        MoveLeft  string `yaml:"move_left"`
+        MoveRight string `yaml:"move_right"`
+        MoveUp    string `yaml:"move_up"`
+        MoveDown  string `yaml:"move_down"`
+        Boost     string
+        Activate  string
+    } `yaml:"KEYS"`
     MAPS struct {
-        Background rune
-        Map        rune
-    }
+        Background string
+        Map        string
+    } `yaml:"MAPS"`
 }
 var CFG = ReadConfig()
 
@@ -90,12 +89,11 @@ func ReadConfig() Config {
     if err != nil {
         // put error here one day
     }
-    var ret Config
+    ret := Config{}
 
-    err = yaml.Unmarshal(f, &ret)
+    err = yaml.Unmarshal([]byte(string(f)), &ret)
     if err != nil {
         // put error here one day
     }
-    fmt.Printf("%+v\n", ret)
     return ret
 }
