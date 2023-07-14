@@ -1,4 +1,4 @@
-# ILTMP (Ilmalaiva Texture Map)
+# ILMP (Ilmalaiva Map)
 Keys:
 - _ - air
 - ║ - vertical wall

@@ -16,12 +16,10 @@ import (
 		"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 // TODO:
-// - ogarnij napis na końcu (koniec gry), w razie czego też podpowiedź z klawiszami
-// - napis nie powinien być debugiem
-
-// - player pos on tilemap
-// - config file with keyboard...
-// - ...and pickable levels??? :O
+// - better text not being debug
+// - keyboard keys to change
+// - option menu in game to change things
+// - some readme on how to create maps
 // - animated player sprite (?)
 
 var IMAGES = map[string]*ebiten.Image {}

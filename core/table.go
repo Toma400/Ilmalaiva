@@ -32,7 +32,7 @@ var   CLT = []rune{'║',  // tiles that have collisions
                    '╝',
                    '╔',
                    '╗',
-                   '_'}
+                   '_',}
 //var   STV = '@'          // tile of stove
 var MAPTEXTURES = map[rune]string {
     '║': "assets/tiles/wall_vertical.png",
