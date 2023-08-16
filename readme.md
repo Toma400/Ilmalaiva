@@ -28,6 +28,13 @@ The bigger the count, the more powerful the bonus, and with count big enough
 you can even make small combos!
 
 ## Customising?
-Even though for now there's no way of customising the game, you can expect
-custom maps, keyboard setting and maybe even peaceful mode being added in the
-future!
+You can create your own map by writing `.ilmp` file and putting it into `maps` folder!
+Then, simply write its name into `ilmalaiva.yaml` file under `map` keyword.  
+Creating map file is easy: simply fill document with respective symbols, where
+every row and line matches respective coordinates. You can see list of symbols
+[here](ilmp_format.md). Remember that one `P` symbol is required (player spawnpoint)
+and having stoves/generators is needed for the game to be possible to play.
+
+You can also customise background by adding new image into `skies` folder and then
+using its name in `ilmalaiva.yaml` file under `background` keyword.  
+Try to get image with similar size to `default.png` to fit game resolution.
